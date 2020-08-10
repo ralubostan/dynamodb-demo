@@ -1,0 +1,78 @@
+buildscript {
+    project.ext {
+        SPRING_BOOT_VERSION                 = '2.3.2.RELEASE'
+        SPRING_DATA_RELEASE_TRAIN_VERSION   = 'Neumann-SR2'
+        SPRING_DATA_DYNAMODB_VERSION        = '5.1.0'
+        SPRING_TX_VERSION                   = '5.2.8.RELEASE'
+        AWS_SDK_DYNAMODB_VERSION            = '1.11.835'
+        LOMBOK_VERSION                      = '1.18.12'
+        GUAVA_VERSION                       = '29.0-jre'
+
+        JUNIT_VERSION                       = '5.7.0-M1'
+        AWS_DYNAMODB_LOCAL_VERSION          = '1.13.2'
+        MOCKITO_JUNIT_VERSION               = '2.23.4'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.3.2.RELEASE'
+}
+
+dependencies {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: SPRING_BOOT_VERSION
+    implementation group: 'org.springframework.data', name: 'spring-data-releasetrain', version: SPRING_DATA_RELEASE_TRAIN_VERSION, ext: 'pom'
+    implementation group: 'com.github.derjust', name: 'spring-data-dynamodb', version: SPRING_DATA_DYNAMODB_VERSION
+    implementation group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb', version: AWS_SDK_DYNAMODB_VERSION
+    implementation group: 'org.projectlombok', name: 'lombok', version: LOMBOK_VERSION
+    implementation group: 'com.google.guava', name: 'guava', version: GUAVA_VERSION
+    implementation group: 'org.springframework', name: 'spring-tx', version: SPRING_TX_VERSION
+
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: LOMBOK_VERSION
+
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: SPRING_BOOT_VERSION
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: MOCKITO_JUNIT_VERSION
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: JUNIT_VERSION
+
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: JUNIT_VERSION
+
+    testCompile group: 'com.amazonaws', name: 'DynamoDBLocal', version: AWS_DYNAMODB_LOCAL_VERSION
+
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: LOMBOK_VERSION
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://repository.mulesoft.org/nexus/content/repositories/public/"
+    }
+}
+
+group 'com.softvision'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.10
+
+apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+
+task copyNativeDeps(type: Copy) {
+    from(configurations.compile + configurations.testCompile) {
+        include '*.dll'
+        include '*.dylib'
+        include '*.so'
+    }
+    into 'build/libs/native'
+}
+
+test {
+    dependsOn copyNativeDeps
+    systemProperty 'sqlite4java.library.path', 'build/libs/native'
+}
+
+bootRun {
+    main = 'com.softvision.dynamodb.PlaylistApplication'
+}
+
+
+

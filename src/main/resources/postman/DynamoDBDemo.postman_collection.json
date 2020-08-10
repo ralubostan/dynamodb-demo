@@ -1,0 +1,230 @@
+{
+	"info": {
+		"_postman_id": "921a7549-980c-4950-904a-ca6db6def83e",
+		"name": "DynamoDBDemo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Playlist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "533e6d6a-21ca-4721-a5b7-a9fe7d4e66a2",
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.collectionVariables.set(\"playlistId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Kitchen\",\r\n    \"genre\": \"Rock\",\r\n    \"type\": \"PUBLIC\",\r\n    \"songList\": [\r\n        {\r\n            \"name\": \"But not often,\",\r\n            \"artist\": \"Microwave\",\r\n            \"album\": \"Split\",\r\n            \"length\": 180\r\n        },\r\n        {\r\n            \"name\": \"Fake blood\",\r\n            \"artist\": \"Heart Attack Man\",\r\n            \"album\": \"Fake blood\",\r\n            \"length\": 189\r\n        },\r\n        {\r\n            \"name\": \"S.O.S.\",\r\n            \"artist\": \"The Glorious Sons\",\r\n            \"album\": \"Young beauties and fools\",\r\n            \"length\": 195\r\n        },\r\n        {\r\n            \"name\": \"Youth\",\r\n            \"artist\": \"Hundredth\",\r\n            \"album\": \"Rare\",\r\n            \"length\": 210\r\n        },\r\n        {\r\n            \"name\": \"Rest my chemistry\",\r\n            \"artist\": \"Interpol\",\r\n            \"album\": \"Our love to admire\",\r\n            \"length\": 301\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/playlists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"playlists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Playlist",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/ecmascript",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/playlists/{{playlistId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"playlists",
+						"{{playlistId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all playlists",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/playlists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"playlists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all playlists by genre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/playlists?genre=Rock",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"playlists"
+					],
+					"query": [
+						{
+							"key": "genre",
+							"value": "Rock"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add songs to playlist",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"songList\": [\r\n        {\r\n            \"name\": \"Back Foot\",\r\n            \"artist\": \"Dinosaur Pile-Up\",\r\n            \"album\": \"Back Foot\",\r\n            \"length\": 188\r\n        },\r\n        {\r\n            \"name\": \"Poisoned Heart\",\r\n            \"artist\": \"Creeper\",\r\n            \"album\": \"Poisoned Heart\",\r\n            \"length\": 207\r\n        },\r\n        {\r\n            \"name\": \"Out Go The Lights\",\r\n            \"artist\": \"Spoon\",\r\n            \"album\": \"Transference\",\r\n            \"length\": 276\r\n        },\r\n        {\r\n            \"name\": \"Delta\",\r\n            \"artist\": \"Mumford & Sons\",\r\n            \"album\": \"Delta\",\r\n            \"length\": 376\r\n        },\r\n        {\r\n            \"name\": \"Everlong\",\r\n            \"artist\": \"Foo Fighters\",\r\n            \"album\": \"The Colour and The Shape\",\r\n            \"length\": 250\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/playlists/{{playlistId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"playlists",
+						"{{playlistId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete playlist by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/playlists/{{playlistId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"playlists",
+						"{{playlistId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all playlists",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/playlists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"playlists"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "5b705b83-a0ae-4ea7-9e6b-18c3a28fafed",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4984a4c8-23d9-4280-9210-db582cf8be9a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "898c3a7d-8cae-4ab0-b0ac-4f650d347a88",
+			"key": "playlistId",
+			"value": "086ff1c3-1c01-4208-85e2-2336f9232b77"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
