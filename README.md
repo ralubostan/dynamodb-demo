@@ -31,9 +31,13 @@ ProvisionedThroughput="{ReadCapacityUnits=5,WriteCapacityUnits=5}"
 ### 2. Run the project 
 The project includes a Gradle wrapper, so there's no need to have Gradle previously installed.
 Supported versions are Java 10 and Gradle 5.6.
-From the command line or from the IntelliJ terminal run:
+From the IntelliJ terminal run:
 ```
 .\gradlew clean build bootRun
+```
+or you can run the project from command line (Windows version):
+```
+./gradlew clean build bootRun
 ```
 This will build the project, run the tests and start the project locally.
 You should have the service running locally on port 8080 (http://localhost:8080).
